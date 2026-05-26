@@ -1,0 +1,123 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+*.lnk
+
+# Editores e IDEs
+.vscode/
+.idea/
+.vs/
+*.swp
+*.suo
+*.user
+*.userprefs
+
+# Ambientes locais e configuracoes sensiveis
+.env
+.env.*
+*.pfx
+*.pem
+*.key
+*.crt
+
+# Python e Jupyter
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+*.egg-info/
+
+# C, C++, Arduino e builds compilados
+*.o
+*.obj
+*.out
+*.elf
+*.bin
+*.hex
+*.dll
+*.so
+*.dylib
+*.class
+build/
+cmake-build-*/
+
+# Unity: manter Assets/, ProjectSettings/ e arquivos .meta versionados
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Ll]ogs/
+**/[Uu]ser[Ss]ettings/
+ExportedObj/
+.consulo/
+*.csproj
+*.unityproj
+*.sln
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.tmp
+sysinfo.txt
+*.apk
+*.unitypackage
+
+# MATLAB
+*.asv
+*.m~
+slprj/
+*.mex*
+
+# Dados brutos, logs e resultados gerados
+*.csv
+*.dat
+IC/CDC_LOGS - cesar/
+IC/Resultados Pi/logs/
+IC/Resultados Pi/rotulados_testes/
+IC/Códigos/IMUSerial/IMU-Serial---IC/**/data*.csv
+IC/Códigos/IMUSerial/IMU-Serial---IC/all_Leo*_Concatenated*.csv
+
+# Modelos treinados e artefatos grandes gerados
+*.pkl
+*.joblib
+*.onnx
+*.h5
+IC/Códigos/modelo*.h
+IC/Resultados Pi/modelos/modelx_*.h
+IC/Resultados Pi/modelos/New_models/*_model.h
+IC/Resultados Pi/gait_reader*
+!IC/Resultados Pi/gait_reader*.cpp
+IC/Resultados Pi/Gráfico Kalman - Rot Cell
+
+# Instaladores, pacotes e binarios externos
+*.exe
+*.msi
+*.zip
+*.7z
+*.rar
+
+# Documentos binarios e imagens geradas
+*.docx
+*.pptx
+*.xlsx
+*.pdf
+*.png
+*.jpg
+*.jpeg
+
+# Prioridade do projeto: manter todos os resultados versionaveis
+!IC/Resultados Pi/
+!IC/Resultados Pi/**
+
+# Repositorios copiados dentro do projeto
+**/.git/
