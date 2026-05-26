@@ -78,26 +78,19 @@ sysinfo.txt
 slprj/
 *.mex*
 
-# Dados brutos, logs e resultados gerados
+# Dados brutos, logs e resultados gerados fora da pasta prioritaria
 *.csv
 *.dat
-IC/CDC_LOGS - cesar/
-IC/Resultados Pi/logs/
-IC/Resultados Pi/rotulados_testes/
-IC/Códigos/IMUSerial/IMU-Serial---IC/**/data*.csv
-IC/Códigos/IMUSerial/IMU-Serial---IC/all_Leo*_Concatenated*.csv
+IC/03_dados/cdc_logs_cesar/
+IC/04_codigo/imu_serial/IMU-Serial---IC/**/data*.csv
+IC/04_codigo/imu_serial/IMU-Serial---IC/all_Leo*_Concatenated*.csv
 
-# Modelos treinados e artefatos grandes gerados
+# Modelos treinados e artefatos grandes gerados fora da pasta prioritaria
 *.pkl
 *.joblib
 *.onnx
 *.h5
-IC/Códigos/modelo*.h
-IC/Resultados Pi/modelos/modelx_*.h
-IC/Resultados Pi/modelos/New_models/*_model.h
-IC/Resultados Pi/gait_reader*
-!IC/Resultados Pi/gait_reader*.cpp
-IC/Resultados Pi/Gráfico Kalman - Rot Cell
+IC/05_modelos/modelos_treinados/modelo*.h
 
 # Instaladores, pacotes e binarios externos
 *.exe
@@ -106,7 +99,7 @@ IC/Resultados Pi/Gráfico Kalman - Rot Cell
 *.7z
 *.rar
 
-# Documentos binarios e imagens geradas
+# Documentos binarios e imagens geradas fora da pasta prioritaria
 *.docx
 *.pptx
 *.xlsx
@@ -116,8 +109,8 @@ IC/Resultados Pi/Gráfico Kalman - Rot Cell
 *.jpeg
 
 # Prioridade do projeto: manter todos os resultados versionaveis
-!IC/Resultados Pi/
-!IC/Resultados Pi/**
+!IC/06_resultados/
+!IC/06_resultados/**
 
 # Repositorios copiados dentro do projeto
 **/.git/

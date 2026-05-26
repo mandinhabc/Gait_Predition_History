@@ -4,27 +4,44 @@ Data da analise: 26/05/2026.
 
 ## Visao geral
 
-O repositorio `Ciencia` parece reunir materiais de iniciacao cientifica sobre coleta e analise de marcha usando IMU/MPU6050, ESP32, MQTT, Unity, Python, MATLAB e modelos de machine learning. Hoje o Git da raiz possui apenas `.gitattributes` versionado; quase todo o conteudo aparece como nao versionado.
+O repositorio `Ciencia` reune cerca de dois anos de pesquisa sobre coleta e analise de marcha usando IMU/MPU6050, ESP32, MQTT, Unity, Python, MATLAB e modelos de machine learning.
 
-Ha cerca de 381 arquivos fora das pastas `.git`, somando aproximadamente 620 MB. A maior parte do volume esta em dados CSV/DAT, modelos treinados, headers gerados por modelos, instaladores e documentos binarios.
+A pasta `IC/` foi reorganizada para funcionar como uma unica arvore de pesquisa dentro do repositorio principal. Os repositorios Git internos que existiam em subpastas foram removidos anteriormente, preservando os arquivos como pastas comuns.
 
-Atualizacao: a pasta `IC/` deve funcionar como uma unica arvore dentro do repositorio principal. Os repositorios Git internos encontrados em subpastas foram removidos, preservando os arquivos como pastas comuns.
+## Organizacao atual
 
-## Estrutura encontrada
+A estrutura ficou numerada para representar um fluxo mais linear:
 
-- `.gitattributes`: normalizacao de fim de linha (`* text=auto`).
-- `.gitignore`: foi ajustado para manter codigo-fonte versionavel e ignorar artefatos pesados/gerados.
-- `IC/`: pasta principal do projeto.
-- `IC/CDC_LOGS - cesar/`: logs brutos de coletas XSens/ATIMX/EposEXO/MarkovMao em CSV e DAT, organizados por testes `T1` a `T8`.
-- `IC/Códigos/`: codigos e artefatos de desenvolvimento, incluindo Python, Arduino/ESP32, C#, modelos `.pkl`, headers de modelos e um repositorio Unity/M2MQTT.
-- `IC/Documentos/`: documentos administrativos e relatorios em DOCX/PDF, alem de imagem pessoal e atalho do Windows.
-- `IC/esp32_mpu6050/`: arquivos de web server/dados para ESP32/MPU6050.
-- `IC/MatLab - cesar/`: scripts MATLAB de utilidades e exemplos.
-- `IC/MQTT/`: instaladores de Mosquitto, MQTTBox e pacotes .NET.
-- `IC/Papers/`: artigos, PDFs, imagens e arquivos auxiliares.
-- `IC/Resultados Pi/`: notebooks, logs, graficos, modelos, codigos C++ e resultados de validacao/classificacao. Esta pasta foi marcada como prioridade no `.gitignore`, entao seus arquivos devem ficar versionaveis mesmo quando forem CSV, PNG, DOCX, PKL ou headers gerados.
+- `IC/01_documentacao/`: documentos academicos, comprovantes, relatorios, resumos e apresentacoes.
+- `IC/02_referencias/`: papers, figuras e materiais usados como referencia.
+- `IC/03_dados/`: dados brutos de coleta e logs originais.
+- `IC/04_codigo/`: codigos de aquisicao, analise, ESP32, Unity/MQTT e MATLAB.
+- `IC/05_modelos/`: modelos treinados e resultados intermediarios de treinamento fora da pasta principal de resultados.
+- `IC/06_resultados/`: resultados priorizados do projeto. A antiga pasta `Resultados Pi` agora esta em `IC/06_resultados/resultados_pi/`.
+- `IC/07_ferramentas/`: instaladores e ferramentas externas usadas ao longo da pesquisa.
 
-Observacao: existem nomes com acentos e espacos. Isso funciona no Git, mas pode atrapalhar automacoes, scripts e ambientes Linux. Para codigo, o ideal e padronizar nomes sem acento e com `_` ou `-`.
+Tambem foi criado `IC/README_ORGANIZACAO.md` com um mapa rapido dessa organizacao.
+
+## Mapa de movimentacao
+
+| Antes | Depois |
+| --- | --- |
+| `IC/Documentos/` | `IC/01_documentacao/documentos_academicos/` |
+| `IC/Passo a passo_.docx` | `IC/01_documentacao/resumos_e_apresentacoes/Passo a passo_.docx` |
+| `IC/Resumo-Amanda-xxxvii-cic-unesp.docx` | `IC/01_documentacao/resumos_e_apresentacoes/Resumo-Amanda-xxxvii-cic-unesp.docx` |
+| `IC/Papers/` | `IC/02_referencias/papers/` |
+| `IC/CDC_LOGS - cesar/` | `IC/03_dados/cdc_logs_cesar/` |
+| `IC/Codigos/IMUSerial/` | `IC/04_codigo/imu_serial/` |
+| `IC/Codigos/proj_esp_unity/` | `IC/04_codigo/esp32_mqtt/proj_esp_unity/` |
+| `IC/esp32_mpu6050/` | `IC/04_codigo/esp32_mqtt/esp32_mpu6050/` |
+| `IC/Codigos/MPU_ESP32.cs` | `IC/04_codigo/esp32_mqtt/MPU_ESP32.cs` |
+| `IC/Codigos/Repositorio M2MQTT/M2MqttUnity/` | `IC/04_codigo/unity_mqtt/M2MqttUnity/` |
+| `IC/MatLab - cesar/` | `IC/04_codigo/matlab_cesar/` |
+| modelos `.pkl` e `modelo_rf.h` soltos em `IC/Codigos/` | `IC/05_modelos/modelos_treinados/` |
+| `resultados_df*.csv` soltos em `IC/Codigos/` | `IC/05_modelos/resultados_treinamento/` |
+| `IC/Resultados Pi/` | `IC/06_resultados/resultados_pi/` |
+| `IC/MQTT/` | `IC/07_ferramentas/instaladores_mqtt/` |
+| `IC/VisualStudioSetup.exe` | `IC/07_ferramentas/instaladores/VisualStudioSetup.exe` |
 
 ## Tecnologias identificadas
 
@@ -36,87 +53,35 @@ Observacao: existem nomes com acentos e espacos. Isso funciona no Git, mas pode 
 - Machine learning: modelos Random Forest/XGBoost em `.pkl` e modelos exportados para `.h`.
 - Dados experimentais: CSV/DAT de sensores e logs de predicao.
 
-## Contagem por tipo de arquivo
+## Prioridade dos resultados
 
-| Tipo | Quantidade | Tamanho aproximado |
-| --- | ---: | ---: |
-| `.csv` | 117 | 133,1 MB |
-| `.meta` | 69 | 0,0 MB |
-| `.cs` | 50 | 0,3 MB |
-| `.png` | 30 | 7,2 MB |
-| `.dat` | 16 | 26,0 MB |
-| `.asset` | 15 | 0,0 MB |
-| `.h` | 12 | 206,5 MB |
-| `.docx` | 10 | 5,7 MB |
-| `.pdf` | 8 | 10,4 MB |
-| `.pkl` | 7 | 75,1 MB |
-| `.exe` | 6 | 152,1 MB |
-| `.m` | 6 | 0,0 MB |
-| `.ipynb` | 4 | 1,7 MB |
-| `.py` | 3 | 0,0 MB |
-| `.cpp` | 3 | 0,0 MB |
+A pasta prioritaria agora e:
 
-## Maiores arquivos
+`IC/06_resultados/resultados_pi/`
 
-| Tamanho | Arquivo |
-| ---: | --- |
-| 153,1 MB | `IC/Códigos/modelo_rf.h` |
-| 104,6 MB | `IC/MQTT/NDP472-DevPack-ENU.exe` |
-| 92,7 MB | `IC/Códigos/IMUSerial/IMU-Serial---IC/all_Leo_n_Gait_n_Read_ALL_Concatenated_NaN_filled.csv` |
-| 68,5 MB | `IC/Códigos/IMUSerial/IMU-Serial---IC/modelo_randomforest.pkl` |
-| 27,2 MB | `IC/MQTT/mosquitto-2.0.21-install-windows-x64.exe` |
-| 13,7 MB | `IC/MQTT/NDP472-DevPack-PTB.exe` |
-| 12,9 MB | `IC/Resultados Pi/modelos/modelx_F3.h` |
+O `.gitignore` foi ajustado para liberar todos os arquivos dentro de `IC/06_resultados/`, mesmo quando os padroes gerais ignoram CSV, PNG, DOCX, PKL, PDF ou headers gerados.
 
-O arquivo `IC/Códigos/modelo_rf.h` passa do limite comum de 100 MB do GitHub para arquivos normais. Se ele precisar ficar no historico, use Git LFS; se for gerado a partir de um modelo, deixe ignorado.
+## Pontos de atencao
 
-## Problemas e riscos
+- `IC/05_modelos/modelos_treinados/modelo_rf.h` tem cerca de 153 MB, acima do limite comum de 100 MB do GitHub para arquivos normais. O ideal e Git LFS, DVC ou armazenamento externo.
+- `IC/07_ferramentas/` contem instaladores. O ideal, no longo prazo, e documentar links oficiais em vez de versionar `.exe`.
+- `IC/01_documentacao/documentos_academicos/` contem documentos pessoais/sensiveis. Vale revisar antes de publicar o repositorio.
+- `IC/04_codigo/esp32_mqtt/proj_esp_unity/proj_esp_unity.ino` contem SSID, senha e IP de broker MQTT diretamente no codigo. O melhor e mover isso para um arquivo local ignorado ou template sem segredo.
+- Alguns comentarios de arquivos Python/Arduino aparecem com caracteres quebrados, sinal de possivel mistura de encoding. Padronizar em UTF-8 ajudaria.
 
-- O `.gitignore` anterior ignorava tambem codigo-fonte (`.py`, `.cpp`, `.h`, `.m`, `.ipynb`, `.json`, `.unity`). Isso deixava o repositorio "limpo", mas escondia arquivos importantes.
-- Ha instaladores `.exe` dentro do repositorio. O ideal e documentar links de instalacao, nao versionar instaladores.
-- Ha modelos `.pkl` e headers gerados muito grandes. Eles devem ir para Git LFS, DVC, releases ou armazenamento externo.
-- Ha documentos possivelmente pessoais/sensiveis em `IC/Documentos/`, incluindo comprovantes, historico escolar, atestado e foto.
-- Havia dois repositorios Git dentro de subpastas. Eles foram removidos para que `IC/` fique como uma pasta normal dentro do repositorio principal:
-  - `IC/Códigos/IMUSerial/IMU-Serial---IC/.git`
-  - `IC/Códigos/Repositorio M2MQTT/M2MqttUnity/.git`
-- O arquivo `IC/Códigos/proj_esp_unity/proj_esp_unity.ino` contem SSID, senha e IP de broker MQTT diretamente no codigo. Mesmo sendo rede local, o melhor e mover isso para um arquivo local ignorado ou template sem segredo.
-- Alguns arquivos Python aparecem com caracteres quebrados nos comentarios, indicando possivel mistura de encodings. Padronize em UTF-8.
+## Gitignore atual
 
-## Recomendacoes de organizacao
+A regra geral do `.gitignore` e:
 
-- Separar codigo, dados e documentacao:
-  - `src/` para Python/C++/Arduino/C#/MATLAB proprio.
-  - `notebooks/` para notebooks.
-  - `data/raw/` para dados brutos ignorados.
-  - `data/processed/` para dados processados ignorados ou controlados por DVC.
-  - `models/` para modelos ignorados ou controlados por Git LFS/DVC.
-  - `docs/` para documentacao em Markdown.
-- Criar um `README.md` com objetivo do projeto, requisitos, como rodar coleta serial, como reproduzir notebooks e como gerar modelos.
-- Criar `requirements.txt` ou `environment.yml` para Python.
-- Criar um `secrets.example.h` ou `config.example.h` para o ESP32, mantendo credenciais reais fora do Git.
-- Manter o projeto M2MQTT como submodule, subtree, dependencia documentada ou pasta externa, em vez de copiar o `.git` interno.
-- Evitar arquivos finais em DOCX/PDF no Git normal. Se forem essenciais para entrega academica, considerar Git LFS.
-
-## Gitignore recomendado
-
-O `.gitignore` recomendado foi aplicado na raiz. A ideia principal e:
-
-- Versionar codigo-fonte: `.py`, `.cpp`, `.m`, `.ino`, `.cs`, `.ipynb`, `.json`, `.unity`, `.asset`, `.meta`.
-- Versionar todos os arquivos de `IC/Resultados Pi/`, pois essa pasta foi definida como prioridade.
-- Ignorar dados e logs: `.csv`, `.dat`, pastas de logs e resultados gerados.
-- Ignorar binarios grandes: `.pkl`, instaladores, arquivos compactados, modelos exportados grandes e documentos binarios.
-- Ignorar caches: Python, Jupyter, Unity, IDEs e sistema operacional.
-- Ignorar credenciais/certificados: `.env`, `.pfx`, `.pem`, `.key`, `.crt`.
-
-Se algum CSV, PDF, imagem ou modelo for pequeno e realmente necessario para reproducibilidade, ha duas boas opcoes:
-
-1. Versionar por excecao no `.gitignore` com `!caminho/do/arquivo`.
-2. Usar Git LFS ou DVC para arquivos pesados.
+- Manter codigo-fonte e configuracoes de projeto versionaveis.
+- Ignorar caches, ambientes locais, builds, credenciais e artefatos de IDE.
+- Ignorar dados/logs/modelos/documentos/binarios fora da pasta de resultados prioritaria.
+- Liberar tudo em `IC/06_resultados/`.
 
 ## Proximos passos sugeridos
 
-1. Remover ou mover instaladores de `IC/MQTT/` e documentar links oficiais.
-2. Tirar credenciais do arquivo `.ino`.
-3. Escolher quais documentos pessoais devem ficar fora do Git.
-4. Revisar a lista final de arquivos de `IC/Resultados Pi/` antes do primeiro commit, ja que essa pasta agora entra como prioridade.
-5. Rodar `git status --short --untracked-files=all` apos revisar o `.gitignore` para conferir o que ficara pronto para commit.
+1. Revisar `IC/01_documentacao/documentos_academicos/` antes de publicar.
+2. Considerar Git LFS para arquivos grandes, principalmente `modelo_rf.h`.
+3. Extrair credenciais do codigo ESP32.
+4. Criar um `README.md` principal com objetivo, requisitos e como reproduzir os experimentos.
+5. Criar `requirements.txt` ou `environment.yml` para os scripts Python/notebooks.
