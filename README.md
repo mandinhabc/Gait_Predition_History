@@ -129,7 +129,7 @@ g++ -o gait_reader gait_reader.cpp
 | Componente | Tecnologia | Uso |
 |-----------|-----------|-----|
 | **Sensores** | MPU6050 (IMU) | Aceleração e giroscópio |
-| **Microcontrolador** | RAsberriPi5 | Leitura de sensores e processamento para predição das fases |
+| **Microcontrolador** | RasberryPi5 | Leitura de sensores, processamento e predição das fases |
 | **Backend** | Python 3.8+ | Análise e treinamento |
 | **ML** | Scikit-learn, XGBoost | Classificação de fases |
 | **Notebooks** | Colab | Análise exploratória |
