@@ -35,7 +35,7 @@ A estrutura foi numerada para representar o fluxo de trabalho:
 
 A pasta prioritária do projeto é:
 
-``_Gait_Predition_History/06_resultados/resultados_pi/_``
+**`Gait_Predition_History/06_resultados/resultados_pi/`**
 
 Os demais dados adquiridos e os demais resultados gerados serviram apenas para comparação entre diferentes abordagens e não contribuíram para os melhores resultados obtidos na pesquisa.
 
