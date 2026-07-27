@@ -200,12 +200,12 @@ Os demais diretórios servem como comparativos e histórico da pesquisa.
 
 ## 🔌 Hardware e Sensores
 
-### Configuração do ESP32
+### Configuração da Rasp
 
 ```cpp
 // Conexão MPU6050-RaspberryPi
-SDA → GPIO 21
-SCL → GPIO 22
+SDA → GPIO 2
+SCL → GPIO 3
 VCC → 3.3V
 GND → GND
 ```
