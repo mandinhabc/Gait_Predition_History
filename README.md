@@ -7,7 +7,7 @@
 
 Repositório da Iniciação Científica (IC) contendo dois anos de pesquisa sobre **coleta, análise e predição de padrões de marcha humana** utilizando sensores IMU (MPU6050), Rasberry Pi 5 e modelos de Machine Learning.
 
-Os arquivos para esp32 e MQTT, não foram proveitosos no decorrer do projeto.
+Os arquivos para esp32, MQTT e Unity não foram proveitosos no decorrer do projeto.
 
 ## 📋 Visão Geral
 
