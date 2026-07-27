@@ -4,7 +4,7 @@ Data da analise: 26/05/2026.
 
 ## Visao geral
 
-O repositorio `Gait_Predition_History` reúne cerca de dois anos de pesquisa sobre coleta e analise de marcha usando IMU/MPU6050, ESP32, MQTT, Unity, Python, MATLAB e modelos de machine learning.
+O repositorio `Gait_Predition_History` reúne cerca de dois anos de pesquisa sobre coleta e análise de marcha usando IMU/MPU6050, ESP32, MQTT, Unity, Python, MATLAB e modelos de machine learning.
 
 A pasta `Gait_Predition_History/` foi reorganizada para funcionar como uma unica arvore de pesquisa dentro do repositorio principal.
 ## Organizacao atual
