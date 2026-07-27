@@ -12,13 +12,13 @@ A pasta `Gait_Predition_History/` foi reorganizada para funcionar como uma únic
 
 A estrutura foi numerada para representar o fluxo de trabalho:
 
--`01_documentacao/`: documentos acadêmicos, comprovantes, relatórios, resumos e apresentações.
--`02_referencias/`: artigos (papers), figuras e materiais utilizados como referência.
--`03_dados/`: dados brutos de coleta e logs originais.
--`04_codigo/`: códigos de aquisição, análise, ESP32, Unity/MQTT e MATLAB.
--`05_modelos/`: modelos treinados e resultados intermediários de treinamento, armazenados fora da pasta principal de resultados.
--`06_resultados/`: resultados priorizados do projeto.
--`07_ferramentas/`: instaladores e ferramentas externas utilizadas ao longo da pesquisa.
+- `01_documentacao/`: documentos acadêmicos, comprovantes, relatórios, resumos e apresentações.
+- `02_referencias/`: artigos (papers), figuras e materiais utilizados como referência.
+- `03_dados/`: dados brutos de coleta e logs originais.
+- `04_codigo/`: códigos de aquisição, análise, ESP32, Unity/MQTT e MATLAB.
+- `05_modelos/`: modelos treinados e resultados intermediários de treinamento, armazenados fora da pasta principal de resultados.
+- `06_resultados/`: resultados priorizados do projeto.
+- `07_ferramentas/`: instaladores e ferramentas externas utilizadas ao longo da pesquisa.
 
 
 ## Linguagens utilizadas
