@@ -12,10 +12,10 @@ Os arquivos para esp32 e MQTT, não foram proveitosos no decorrer do projeto.
 ## 📋 Visão Geral
 
 Este projeto implementa um sistema completo de análise de marcha:
-- **Aquisição de dados**: Sensores IMU em tempo real via ESP32
-- **Processamento**: Python com notebooks Jupyter para análise exploratória
-- **Modelagem**: Random Forest e XGBoost para classificação de fases de marcha
-- **Visualização**: Unity para display em tempo real e MATLAB para gráficos estatísticos
+- **Aquisição de dados**: Sensores IMU em tempo real 
+- **Processamento**: Rasberry Pi para análise exploratória em C++ com janelas de captação e processamento
+- **Modelagem**: XGBoost para classificação de fases de marcha em tempo real
+- **Visualização**: Python para vizualização grafica dos resultados posteriormente
 
 **Status**: Pesquisa concluída com resultados prioritários em `06_resultados/resultados_pi/`
 
@@ -39,10 +39,8 @@ Gait Predict History/
 │       └── *.ipynb           # Notebooks de análise e rotulagem
 └── 07_ferramentas/           # Instaladores e ferramentas externas
 
-relatorio.md                   # Documentação detalhada do projeto
 ```
 
-Veja [relatorio.md](relatorio.md) para descrição completa de cada diretório.
 
 ---
 
@@ -52,10 +50,9 @@ Veja [relatorio.md](relatorio.md) para descrição completa de cada diretório.
 
 - **Python 3.8+**
 - **Git**
-- Hardware opcional:
-  - ESP32 com sensor MPU6050
+- Hardware (em caso da reprodução do projeto):
+  - sensor MPU6050
   - Raspberry Pi (para coleta de dados)
-  - MQTT Broker (teste: Mosquitto ou HiveMQ)
 
 ### Instalação
 
@@ -80,25 +77,15 @@ venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-#### 3. (Opcional) Configurar ESP32
-```bash
-# Instalar Arduino IDE: https://www.arduino.cc/en/software
-# Adicionar board ESP32: https://docs.espressif.com/projects/arduino-esp32/
-
-# Carregar firmware em: Gait Predict History/04_codigo/esp32_mqtt/
-```
-
 ---
 
 ## 📊 Usando os Modelos Principais
 
-### Análise de Dados com Jupyter
+### Análise de Dados com Colab
 
 ```bash
 cd "Gait Predict History/06_resultados/resultados_pi/"
 
-# Iniciar servidor Jupyter
-jupyter notebook
 
 # Abrir: Rotulagem\ e\ análise\ dos\ dados\ captados.ipynb
 ```
@@ -108,12 +95,9 @@ Este notebook contém:
 - Rotulagem manual de fases de marcha
 - Visualização exploratória dos dados
 
-### Treinar/Usar Modelos
+### Usar Modelos
 
 ```python
-import joblib
-import pandas as pd
-
 # Carregar modelo treinado
 modelo = joblib.load('Gait Predict History/06_resultados/resultados_pi/modelos/modelo_xgboost.pkl')
 
@@ -124,6 +108,7 @@ dados = pd.read_csv('Gait Predict History/06_resultados/resultados_pi/rotulados_
 predicoes = modelo.predict(dados.drop('fase', axis=1))
 print(predicoes)
 ```
+*Exemplo de uso para predição artificial dos dados, sem a coleta em janela em tempo real.
 
 ### Executar Leitor em Tempo Real (Raspberry Pi)
 
@@ -134,7 +119,7 @@ cd "Gait Predict History/06_resultados/resultados_pi/"
 g++ -o gait_reader gait_reader.cpp
 
 # Executar
-./gait_reader --mqtt-broker localhost --mqtt-port 1883
+./gait_reader
 ```
 
 ---
@@ -144,21 +129,17 @@ g++ -o gait_reader gait_reader.cpp
 | Componente | Tecnologia | Uso |
 |-----------|-----------|-----|
 | **Sensores** | MPU6050 (IMU) | Aceleração e giroscópio |
-| **Microcontrolador** | ESP32 | Leitura de sensores e transmissão MQTT |
-| **Comunicação** | MQTT | Envio de dados em tempo real |
+| **Microcontrolador** | RAsberriPi5 | Leitura de sensores e processamento para predição das fases |
 | **Backend** | Python 3.8+ | Análise e treinamento |
 | **ML** | Scikit-learn, XGBoost | Classificação de fases |
-| **Notebooks** | Jupyter | Análise exploratória |
-| **Visualização** | Unity 2017.1+ | Display em tempo real |
-| **Coleta** | C++ | Leitor em Raspberry Pi |
-| **Gráficos** | MATLAB | Análise estatística |
+| **Notebooks** | Colab | Análise exploratória |
+| **Coleta** | C++ | Leitor em Raspberry Pi + IMU |
+| **Gráficos** | Python 3.8+ | Análise estatística |
 
 ### Linguagens Utilizadas
 
-- **Python**: Leitura serial, análise CSV, notebooks Jupyter, treinamento/análise de modelos
-- **C/C++**: Leitores/runtime de marcha e binários compilados
-- **Arduino/ESP32**: Projeto `.ino` com Wi-Fi, MQTT e sensor MPU6050
-- **C#/Unity**: Projeto `M2MqttUnity`, scripts MQTT e cenas Unity
+- **Python**: Leitura serial, análise CSV, notebooks Colab, treinamento/análise de modelos
+- **C/C++**: Leitores/runtime de marcha, binários compilados e predoção em tempo real.
 - **MATLAB**: Scripts de plotagem e utilidades
 
 ---
@@ -168,11 +149,11 @@ g++ -o gait_reader gait_reader.cpp
 ```
 Coleta de Dados
     ↓
-Sensores IMU (ESP32) → MQTT → Raspberry Pi
+Sensores IMU → Raspberry Pi
     ↓
-Processamento em Python
+Processamento em C++
     ↓
-Rotulagem Manual de Fases
+Rotulagem Manual de Fases (Python)
     ↓
 Treinamento de Modelos (RF, XGBoost)
     ↓
@@ -180,7 +161,7 @@ Validação e Testes
     ↓
 Implementação em Tempo Real (gait_reader.cpp)
     ↓
-Visualização (Unity + MATLAB)
+Visualização (MATLAB, Python)
 ```
 
 ---
@@ -191,12 +172,12 @@ Visualização (Unity + MATLAB)
 
 Este é o diretório mais importante do projeto, contendo:
 
-- **`modelos/`**: Arquivos `.pkl` com modelos Random Forest e XGBoost treinados
+- **`modelos/`**: Arquivos `.pkl` com modelos Random Forest e XGBoost treinados e convertidos para `.h`
 - **`logs/`**: Dados de execução em tempo real (`log_runtime_*.csv`)
 - **`imagens/`**: Gráficos gerados e fotos do protótipo final
 - **`rotulados_testes/`**: Dados manualmente rotulados com fases de marcha
-- **`Rotulagem e análise dos dados captados.ipynb`**: Notebook para análise de dados
-- **`gait_reader.cpp`**: Código C++ para aquisição em Raspberry Pi
+- **`Rotulagem e análise dos dados captados.ipynb`**: Notebook para análise de dados e rotulação
+- **`gait_reader.cpp`**: Código C++ para aquisição e predição em Raspberry Pi
 
 Os demais diretórios servem como comparativos e histórico da pesquisa.
 
@@ -205,13 +186,13 @@ Os demais diretórios servem como comparativos e histórico da pesquisa.
 ## 📊 Modelos de Machine Learning
 
 ### Random Forest
-- **Arquivo**: `resultados_pi/modelos/modelo_rf.pkl`
-- **Features**: 6-12 (aceleração e giroscópio nos 3 eixos)
+- **Arquivo**: `05_modelos/modelo_rf.pkl`
+- **Features**: 42 (aceleração e giroscópio nos 3 eixos, )
 - **Classes**: Fases da marcha (apoio, balanço, etc.)
-- **Performance**: Vide logs de treinamento
+- **Performance**: `04_codigos/imu_serial/..` não utilizados no modelo final
 
 ### XGBoost
-- **Arquivo**: `resultados_pi/modelos/modelo_xgboost.pkl`
+- **Arquivo**: `../resultados_pi/modelos/New_models/gait_xgb_v5_3_min.pkl`
 - **Otimização**: Hiperparâmetros ajustados para tempo real
 - **Exportado para**: Formato `.h` para implementação em C++
 
@@ -222,22 +203,16 @@ Os demais diretórios servem como comparativos e histórico da pesquisa.
 ### Configuração do ESP32
 
 ```cpp
-// Conexão MPU6050
+// Conexão MPU6050-RaspberryPi
 SDA → GPIO 21
 SCL → GPIO 22
 VCC → 3.3V
 GND → GND
-
-// Conexão Wi-Fi/MQTT
-SSID: [Configurar]
-Broker MQTT: [IP do broker]
-Porta: 1883 (padrão)
-Tópicos: /gait/sensor, /gait/prediction
 ```
 
 ### Dados do Sensor
 
-**Frequência**: 50-100 Hz  
+**Frequência**: 80-100 Hz  
 **Resolução**: 16-bit  
 **Range**: ±2g (aceleração), ±250°/s (giroscópio)  
 
@@ -247,20 +222,12 @@ Tópicos: /gait/sensor, /gait/prediction
 
 - Documentos acadêmicos: `01_documentacao/`
 - Papers e materiais: `02_referencias/`
-- Relatório detalhado: [relatorio.md](relatorio.md)
+- Relatório detalhado: enviado através do SAGe
 
 ---
 
 ## 🛠️ Troubleshooting
 
-### Problema: Conexão MQTT não funciona
-```bash
-# Verificar se broker está rodando
-mosquitto -v
-
-# Testar conexão
-mosquitto_sub -h localhost -t "gait/#"
-```
 
 ### Problema: Modelos não carregam
 ```python
@@ -278,22 +245,19 @@ Veja os dados rotulados em: `resultados_pi/rotulados_testes/`
 
 ## 📝 Como Usar Este Repositório
 
-### Para Reproduzir Resultados
-1. Acesse `06_resultados/resultados_pi/`
-2. Execute o notebook `Rotulagem e análise dos dados captados.ipynb`
-3. Carregue modelos em `modelos/`
-4. Valide com dados em `rotulados_testes/`
-
 ### Para Coletar Novos Dados
-1. Configure ESP32 com código em `04_codigo/esp32_mqtt/`
-2. Execute `gait_reader.cpp` em Raspberry Pi
-3. Salve logs em `03_dados/`
+1. Acesse `06_resultados/resultados_pi/`
+2. Carregue modelos em `modelos/`
+3. Carregue o arquivo `gait_reader.cpp` (sempre o arquivo mais recente)
+4. Compile o arquivo em 3, gerando o executavel `gait_runtime`
+5. Com o prototipo ja posicionado corretamente no pé, rode o executável e faça uma pequena caminhada andando normalmente
+6. Salve o log gerado e faça as análises correspondentes
 
-### Para Desenvolver Novas Funcionalidades
-1. Explore dados em `03_dados/`
-2. Analise em notebooks Jupyter
-3. Documente em `01_documentacao/`
-4. Implemente em `04_codigo/`
+### Para reproduzir resultados
+1.  Acesse `06_resultados/resultados_pi/`
+2. Carregue `Gait_xgb_v5_3_usar.ipynb`
+3. Carregue modelos em `modelos/`
+4. Rode o notebook
 
 ---
 
@@ -324,23 +288,17 @@ Este projeto está sob licença MIT. Veja [LICENSE](LICENSE) para detalhes.
 ## 👤 Autor
 
 **Iniciação Científica** - Análise de Marcha com Sensores IMU  
-Data de conclusão: 26/05/2026
+Data de conclusão: 01/06/2026
 
 ---
 
 ## 🔗 Links Úteis
 
-- [Relatório Completo](relatorio.md)
 - [Documentação Técnica](Gait%20Predict%20History/01_documentacao)
 - [Modelos Treinados](Gait%20Predict%20History/06_resultados/resultados_pi/modelos)
 - [Dados de Teste](Gait%20Predict%20History/06_resultados/resultados_pi/rotulados_testes)
 
----
 
-## ❓ Dúvidas?
-
-Consulte:
-1. [relatorio.md](relatorio.md) - Documentação detalhada
 2. [IC/README_ORGANIZACAO.md](Gait%20Predict%20History/IC/README_ORGANIZACAO.md) - Mapa de organização
 3. Notebooks em `06_resultados/resultados_pi/` - Exemplos práticos
 
