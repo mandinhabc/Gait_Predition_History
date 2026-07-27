@@ -1,57 +1,53 @@
-# Relatorio do repositorio
+## Relatório do Repositório
 
-Data da analise: 26/05/2026.
+Data da análise: 26/05/2026.
 
-## Visao geral
+## Visão geral
 
-O repositorio `Gait_Predition_History` reúne cerca de dois anos de pesquisa sobre coleta e análise de marcha usando IMU/MPU6050, ESP32, MQTT, Unity, Python, MATLAB e modelos de machine learning.
+O repositório `Gait_Predition_History` reúne cerca de dois anos de pesquisa sobre coleta e análise de marcha utilizando IMU/MPU6050, ESP32, MQTT, Unity, Python, MATLAB e modelos de machine learning.
 
-A pasta `Gait_Predition_History/` foi reorganizada para funcionar como uma unica arvore de pesquisa dentro do repositorio principal.
-## Organizacao atual
+A pasta `Gait_Predition_History/` foi reorganizada para funcionar como uma única árvore de pesquisa dentro do repositório principal.
 
-A estrutura ficou numerada para representar um fluxo mais linear:
+## Organização atual
 
-- `01_documentacao/`: documentos academicos, comprovantes, relatorios, resumos e apresentacoes.
-- `02_referencias/`: papers, figuras e materiais usados como referencia.
-- `03_dados/`: dados brutos de coleta e logs originais.
-- `04_codigo/`: codigos de aquisicao, analise, ESP32, Unity/MQTT e MATLAB.
-- `05_modelos/`: modelos treinados e resultados intermediarios de treinamento fora da pasta principal de resultados.
-- `06_resultados/`: resultados priorizados do projeto.
-- `07_ferramentas/`: instaladores e ferramentas externas usadas ao longo da pesquisa.
+A estrutura foi numerada para representar o fluxo de trabalho:
 
-Tambem foi criado `IC/README_ORGANIZACAO.md` com um mapa rapido dessa organizacao.
+-`01_documentacao/`: documentos acadêmicos, comprovantes, relatórios, resumos e apresentações.
+-`02_referencias/`: artigos (papers), figuras e materiais utilizados como referência.
+-`03_dados/`: dados brutos de coleta e logs originais.
+-`04_codigo/`: códigos de aquisição, análise, ESP32, Unity/MQTT e MATLAB.
+-`05_modelos/`: modelos treinados e resultados intermediários de treinamento, armazenados fora da pasta principal de resultados.
+-`06_resultados/`: resultados priorizados do projeto.
+-`07_ferramentas/`: instaladores e ferramentas externas utilizadas ao longo da pesquisa.
+
 
 ## Linguagens utilizadas
 
-- Python: leitura serial, analise CSV, notebooks Jupyter e treinamento/analise de modelos.
-- C/C++: leitores/runtime de marcha e possiveis binarios compilados.
-- Arduino/ESP32: projeto `.ino` com Wi-Fi, MQTT e sensor MPU6050.
-- C#/Unity: projeto `M2MqttUnity`, scripts MQTT e cenas Unity.
-- MATLAB: scripts de plotagem e utilidades.
-- Machine learning: modelos Random Forest/XGBoost em `.pkl` e modelos exportados para `.h`.
-- Dados experimentais: CSV/DAT de sensores e logs de predicao.
+- Python: leitura serial, análise de arquivos CSV, notebooks Jupyter e treinamento/análise de modelos.
+- C/C++: leitores (runtime) de marcha e possíveis binários compilados.
+- Arduino/ESP32: projetos .ino com Wi-Fi, MQTT e sensor MPU6050.
+- C#/Unity: projeto M2MqttUnity, scripts MQTT e cenas Unity.
+- MATLAB: scripts de plotagem e utilitários.
+- Machine Learning: modelos Random Forest e XGBoost em arquivos .pkl e modelos exportados para .h.
+- Dados experimentais: arquivos CSV/DAT de sensores e logs de predição.
 
-## Prioridade dos resultados
+## Resultados Principais
 
-A pasta prioritaria é:
+A pasta prioritária do projeto é:
 
-`Gait_Predition_History/06_resultados/resultados_pi/`
+``Gait_Predition_History/06_resultados/resultados_pi/``
 
-O restante dos dados adquiridos e supostos resultados gerados, não foram proveitosos para o melhor resultado da pesquisa.
+Os demais dados adquiridos e os demais resultados gerados serviram apenas para comparação entre diferentes abordagens e não contribuíram para os melhores resultados obtidos na pesquisa.
 
-## Como usar:
+## Como usar
 
-Como dito a pasta principal é `Gait_Predition_History/06_resultados/resultados_pi/`, onde se encontram todos os processos relevantes para o resultado atual da pesquisa. Separados em: 
+Como mencionado anteriormente, a pasta principal é ``Gait_Predition_History/06_resultados/resultados_pi/``, onde se encontram todos os processos relevantes para o resultado atual da pesquisa. Seu conteúdo está organizado da seguinte forma:
 
-- `../resultados_pi/modelos/`: modelos de Random Forest e XGBoost, treinados de formas diferentes para a aplicação no projeto.
-- `../resultados_pi/logs/`: dados adquiridos em algumas das variações dos modelos, os mais recentes sendo `log_runtime..`.
-- `../resultados_pi/imagens/`: graficos respectivos aos `log_runtime..` e fotos do projeto em sua forma final.
-- `../resultados_pi/rotulados_testes/`: rescpestivos aos dados adquiridos, mas com a separação das fases feita manualmente. Dados usados nos treinamentos dos modelos.
-- `../resultados_pi/Rotulagem e análise dos dados captados.ipynb`: codigo utilizado na analise previa dos dados anteriores e para a roulagem/separação das fases.
-- `../resultados_pi/gait_reader.cpp`: codigo usado na Rasberry Pi para aquisição de dados, tanto para rotulagem quanto os finais.
+- ``../resultados_pi/modelos/``: modelos Random Forest e XGBoost treinados com diferentes abordagens para aplicação no projeto.
+- ``../resultados_pi/logs/``: dados adquiridos em algumas variações dos modelos, sendo os arquivos log_runtime... os mais recentes.
+- ``../resultados_pi/imagens/``: gráficos correspondentes aos arquivos log_runtime... e fotografias do projeto em sua versão final.
+- ``../resultados_pi/rotulados_testes/``: dados correspondentes às aquisições realizadas, contendo a separação manual das fases da marcha. Esses dados foram utilizados no treinamento dos modelos.
+- ``../resultados_pi/Rotulagem e análise dos dados captados.ipynb``: notebook utilizado para a análise preliminar dos dados e para a rotulagem/separação das fases da marcha.
+- ``../resultados_pi/gait_reader.cpp``: código utilizado na Raspberry Pi para aquisição de dados, tanto para a etapa de rotulagem quanto para os testes finais.
 
-As outras pastas e arquivos serviram apenas de comparativo entre si para verificar a melhor eficiência do projeto.
-
-
-
-
+As demais pastas e arquivos tiveram como finalidade apenas a comparação entre diferentes abordagens, permitindo avaliar a eficiência de cada uma durante o desenvolvimento do projeto.
