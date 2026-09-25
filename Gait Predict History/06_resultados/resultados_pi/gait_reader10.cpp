@@ -23,6 +23,11 @@
 #include <algorithm>
 #include <numeric>
 #include <complex>
+#include <cerrno>
+#include <cstdlib>
+#include <ctime>
+#include <iomanip>
+#include <sys/wait.h>
 
 
 // COMANDO DE COMPILAÇÃO
@@ -457,6 +462,97 @@ public:
     }
 };
 
+// Cria um arquivo exclusivo para cada coleta, mesmo em execucoes simultaneas.
+bool open_unique_csv(ofstream& csv, string& filename) {
+    auto now = chrono::system_clock::now();
+    auto ms = chrono::duration_cast<chrono::milliseconds>(
+        now.time_since_epoch()).count() % 1000;
+    time_t current_time = chrono::system_clock::to_time_t(now);
+    tm local_time{};
+    if (localtime_r(&current_time, &local_time) == nullptr) {
+        cerr << "[ERROR] Failed to get local time for CSV name.\n";
+        return false;
+    }
+
+    ostringstream name;
+    name << "log_v5_3_" << put_time(&local_time, "%Y%m%d_%H%M%S")
+         << "_" << setfill('0') << setw(3) << ms << "_" << getpid();
+
+    for (int suffix = 0; suffix < 1000; ++suffix) {
+        filename = name.str();
+        if (suffix != 0) filename += "_" + to_string(suffix);
+        filename += ".csv";
+
+        int file = open(filename.c_str(), O_WRONLY | O_CREAT | O_EXCL, 0644);
+        if (file < 0) {
+            if (errno == EEXIST) continue;
+            perror("[ERROR] Failed to create CSV");
+            return false;
+        }
+        close(file);
+
+        csv.open(filename, ios::out | ios::app);
+        if (!csv.is_open()) {
+            cerr << "[ERROR] Failed to open " << filename << " for writing.\n";
+            unlink(filename.c_str());
+            return false;
+        }
+        return true;
+    }
+
+    cerr << "[ERROR] Could not find an unused CSV name.\n";
+    return false;
+}
+
+// Envia somente o CSV ja fechado; em caso de falha, a copia local permanece.
+bool upload_csv_to_drive(const string& filename) {
+    const char* configured_destination = getenv("GAIT_DRIVE_DEST");
+    if (configured_destination == nullptr || *configured_destination == '\0') {
+        cerr << "[ERROR] Set GAIT_DRIVE_DEST to a configured rclone folder "
+             << "(for example, gdrive:Experimentos/Gait). CSV kept locally.\n";
+        return false;
+    }
+
+    string destination(configured_destination);
+    size_t colon = destination.find(':');
+    if (colon == string::npos || colon == 0) {
+        cerr << "[ERROR] GAIT_DRIVE_DEST must be an rclone remote path. "
+             << "CSV kept locally.\n";
+        return false;
+    }
+    if (destination.back() != ':' && destination.back() != '/') destination += '/';
+    string remote_file = destination + filename;
+    string include_file = "/" + filename;
+
+    pid_t child = fork();
+    if (child < 0) {
+        perror("[ERROR] Failed to start rclone");
+        return false;
+    }
+    if (child == 0) {
+        execlp("rclone", "rclone", "copy", "--immutable", "--include",
+               include_file.c_str(), ".", destination.c_str(),
+               static_cast<char*>(nullptr));
+        perror("[ERROR] Failed to execute rclone");
+        _exit(127);
+    }
+
+    int status = 0;
+    while (waitpid(child, &status, 0) < 0) {
+        if (errno == EINTR) continue;
+        perror("[ERROR] Failed to wait for rclone");
+        return false;
+    }
+    if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+        cerr << "[ERROR] Drive upload failed. CSV kept locally at "
+             << filename << ".\n";
+        return false;
+    }
+
+    cout << "[OK] CSV uploaded to " << remote_file << "\n";
+    return true;
+}
+
 // ========================= MAIN LOOP =========================
 int main() {
     signal(SIGINT, sigint_handler);
@@ -465,8 +561,12 @@ int main() {
     const int WINDOW_SIZE = 30;
     deque<array<double,8>> window;
     ofstream csv;
-    string filename = "log_v5_3.csv";
-    csv.open(filename);
+    string filename;
+    if (!open_unique_csv(csv, filename)) {
+        restore_terminal();
+        return 1;
+    }
+    cout << "[INFO] Saving CSV to " << filename << "\n";
 
     // Adicionei colunas do Kalman no Header
     csv << "timestamp,ax,ay,az,gx,gy,gz,roll,pitch,delay_ms,classe_prevista\n";
@@ -655,8 +755,14 @@ int main() {
     close(fd);
     csv.close();
     restore_terminal(); // Restore terminal settings
+    if (!csv) {
+        cerr << "[ERROR] Failed to finish writing " << filename
+             << ". Drive upload skipped.\n";
+        return 1;
+    }
+    bool uploaded = upload_csv_to_drive(filename);
     cout << "[INFO] Stopped gracefully. Terminal restored.\n";
-    return 0;
+    return uploaded ? 0 : 2;
 }} 
 
 
