@@ -521,8 +521,7 @@ bool upload_csv_to_drive(const string& filename) {
         return false;
     }
     if (destination.back() != ':' && destination.back() != '/') destination += '/';
-    string remote_file = destination + filename;
-    string include_file = "/" + filename;
+    destination += filename;
 
     pid_t child = fork();
     if (child < 0) {
@@ -530,9 +529,8 @@ bool upload_csv_to_drive(const string& filename) {
         return false;
     }
     if (child == 0) {
-        execlp("rclone", "rclone", "copy", "--immutable", "--include",
-               include_file.c_str(), ".", destination.c_str(),
-               static_cast<char*>(nullptr));
+        execlp("rclone", "rclone", "copyto", "--immutable",
+               filename.c_str(), destination.c_str(), static_cast<char*>(nullptr));
         perror("[ERROR] Failed to execute rclone");
         _exit(127);
     }
@@ -549,7 +547,7 @@ bool upload_csv_to_drive(const string& filename) {
         return false;
     }
 
-    cout << "[OK] CSV uploaded to " << remote_file << "\n";
+    cout << "[OK] CSV uploaded to " << destination << "\n";
     return true;
 }
 
@@ -763,6 +761,7 @@ int main() {
     bool uploaded = upload_csv_to_drive(filename);
     cout << "[INFO] Stopped gracefully. Terminal restored.\n";
     return uploaded ? 0 : 2;
+
 }} 
 
 
